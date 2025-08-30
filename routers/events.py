@@ -1,7 +1,10 @@
 from typing import Annotated, Optional
-from fastapi import APIRouter, Depends, Form, HTTPException, UploadFile
+
+from fastapi import APIRouter, Depends, Form, UploadFile, HTTPException, status
+
 from services.events import Event_CRUD
 from database import get_db
+from schemas import EventResponse
 # from database import db_dependency
 from sqlalchemy.orm import Session
 
@@ -36,7 +39,9 @@ async def save_file_to_disk(uploaded_file: UploadFile):
     with open(uploaded_file.filename, "wb+") as file_object:
         file_content = await uploaded_file.read()
         file_object.write(file_content)
+    
         
+       
 #list all events in the database
 @event_router.get("/", status_code=200)
 def get_all_events(db : Session = Depends(get_db)):
@@ -45,4 +50,16 @@ def get_all_events(db : Session = Depends(get_db)):
         return {"data" : events}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+      
+      
+#get an event with id  
+@event_router.get("/{event_id}", status_code= status.HTTP_200_OK)
+async def get_event_by_id(event_id: int, db: Session= Depends(get_db)):
+    try:
+        event = Event_CRUD.get_event(db, event_id)
+        if event:
+            return event
+        
+    except Exception as e:
+        raise HTTPException(status_code= 500, detail= str(e))
     
