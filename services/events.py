@@ -23,23 +23,6 @@ class EventServices:
     @staticmethod
     def get_all_events(db : Session):
         return db.query(Event).all()
-    
-    @staticmethod
-    def rsvp_to_an_event(db : Session, event_id : UUID, name : str, email : str):
-        if db.query(Event.id).filter(Event.id == str(event_id).firt()):
-            try:
-                result = db.query(Event.id).filter(Event.id == str(event_id).firt())
-                db_rsvp = RSVP(id = str(uuid.uuid4()), name=name, email=email, event_id=result[0])
-                db.add(db_rsvp)
-                db.commit()
-                db.refresh(db_rsvp)
-                return (db_rsvp)
-            except Exception as e:
-                db.rollback()
-                raise HTTPException(status_code = 500, detail=str(e))
-            
-        else:
-            return {"message" : "This event don't exist"}
             
             
     
