@@ -8,7 +8,8 @@ from typing import Annotated
 # from sqlalchemy import text
 load_dotenv()
 SQLALCHEMY_DATABASE_URL = os.environ.get("DATABASE_URL")
-
+if not SQLALCHEMY_DATABASE_URL:
+    raise ValueError("DATABASE_URL environment variable not set")
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
@@ -26,3 +27,4 @@ def get_db():
         db.close()
         
 # db_dependency = Annotated[Session, Depends(get_db)]
+

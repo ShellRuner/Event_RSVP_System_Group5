@@ -2,7 +2,9 @@ from fastapi import FastAPI
 from routers.events import event_router
 from database import engine, Base
 
-app = FastAPI()
+app = FastAPI(title="Event RSVP system",
+    description="A RSVP system for events where users can create events and RSVP to them.",
+    version="1.0.0",)
 
 #home
 @app.get("/")

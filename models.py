@@ -20,3 +20,4 @@ class RSVP(Base):
     name = Column(String, nullable=False)
     email = Column(String, nullable=False)
     event_id = Column(Integer, nullable=False)
+
