@@ -1,0 +1,24 @@
+from uuid import UUID
+from fastapi import APIRouter, Depends, Form, Path
+from typing import Annotated
+from sqlalchemy.orm import Session
+
+from database import get_db
+from services.rsvp import rsvp_services
+
+
+rsvp_router = APIRouter()
+#rsvp to an event
+@rsvp_router.post("/events/{event_id}/rsvp", status_code=201)
+def rsvp_to_an_event(
+    event_id : Annotated[UUID, Path()], 
+    name : Annotated[str, Form()],
+    email: Annotated[str, Form()],
+    db : Session = Depends(get_db)
+    ):
+    
+    rsvp = rsvp_services.rsvp_to_an_event(db, event_id, name, email)
+    if rsvp:
+        return {"data" : rsvp, "message" : "rsvp succeffully to this event"}
+    else:
+        return {"message" : "This event don't exist"}

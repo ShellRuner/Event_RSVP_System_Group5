@@ -19,5 +19,5 @@ class RSVP(Base):
     id = Column(String, primary_key=True, index=True)
     name = Column(String, nullable=False)
     email = Column(String, nullable=False)
-    event_id = Column(Integer, nullable=False)
+    event_id = Column(String, nullable=False)
 
