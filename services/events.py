@@ -26,6 +26,13 @@ class EventServices:
             
             
     
+    @staticmethod
+    def get_all_events(db: Session):
+        db.query(Event).all()
+
+    @staticmethod
+    def get_event(db:Session, event_id: int):
+        db.query(Event).filter(Event.id == event_id).first()
     
 Event_CRUD = EventServices()
 
