@@ -1,5 +1,5 @@
 from typing import Annotated, Optional
-from fastapi import APIRouter, Depends, Form, UploadFile
+from fastapi import APIRouter, Depends, Form, HTTPException, UploadFile
 from services.events import Event_CRUD
 from database import get_db
 # from database import db_dependency
@@ -37,3 +37,12 @@ async def save_file_to_disk(uploaded_file: UploadFile):
         file_content = await uploaded_file.read()
         file_object.write(file_content)
         
+#list all events in the database
+@event_router.get("/", status_code=200)
+def get_all_events(db : Session = Depends(get_db)):
+    try:
+        events = Event_CRUD.get_all_events(db)
+        return {"data" : events}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    

@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from routers.events import event_router
+from routers.rsvp import rsvp_router
 from database import engine, Base
 
 app = FastAPI(title="Event RSVP system",
@@ -13,6 +14,8 @@ def home():
 
 
 app.include_router(event_router, prefix= "/events", tags=["Events"])
+app.include_router(rsvp_router, tags=["RSVPs"] )
 
 Base.metadata.create_all(bind=engine)
+
 
