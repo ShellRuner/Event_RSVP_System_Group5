@@ -1,24 +1,23 @@
-import datetime
-from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, String, Float, Integer
 from database import Base
 
 
 class Event(Base):
     __tablename__ = "events"
-    id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, index=True)
-    description = Column(String)
-    date = Column(String)
-    location = Column(String)
-    flyer = Column(String, nullable=True)
-    rsvps = relationship("RSVP", back_populates="event")
 
+    id = Column(String, primary_key=True, index=True)
+    title = Column(String, nullable = False)
+    description = Column(String, nullable=False)
+    date = Column(String, nullable=False)
+    location = Column(String, nullable=False)
+    flyer_filename = Column(String, nullable=True)
+    
 
 class RSVP(Base):
-    __tablename__ = "rsvps"
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String)
-    email = Column(String)
-    event_id = Column(Integer, ForeignKey("events.id"))
-    event = relationship("Event", back_populates="rsvps")
+    __tablename__ = "rsvp"
+    
+    id = Column(String, primary_key=True, index=True)
+    name = Column(String, nullable=False)
+    email = Column(String, nullable=False)
+    event_id = Column(Integer, nullable=False)
+
