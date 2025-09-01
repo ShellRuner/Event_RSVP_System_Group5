@@ -23,4 +23,15 @@ class RSVPServices:
         # else:
         #     return {"message" : "This event don't exist"}
         
+    @staticmethod
+    def get_rsvp_for_event(db : Session, event_id : UUID):
+        result = db.query(RSVP.event_id).filter(RSVP.event_id == str(event_id)).first()
+        if result[0]:
+            db_rsvps = db.query(RSVP).filter(RSVP.event_id == str(event_id)).all()
+            return db_rsvps
+        else:
+            return {"message" : "This event don't exist"}
+                
+            
+        
 rsvp_services = RSVPServices()

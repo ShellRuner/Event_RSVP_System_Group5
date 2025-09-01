@@ -25,10 +25,6 @@ class EventServices:
         return db.query(Event).all()
             
             
-    
-    @staticmethod
-    def get_all_events(db: Session):
-        db.query(Event).all()
 
     @staticmethod
     def get_event(db:Session, event_id: int):
