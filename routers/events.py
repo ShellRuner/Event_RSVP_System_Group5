@@ -1,6 +1,8 @@
+from os import path
 from typing import Annotated, Optional
+from uuid import UUID
 
-from fastapi import APIRouter, Depends, Form, UploadFile, HTTPException, status
+from fastapi import APIRouter, Depends, Form, Path, UploadFile, HTTPException, status
 
 from services.events import Event_CRUD
 from database import get_db
@@ -54,7 +56,10 @@ def get_all_events(db : Session = Depends(get_db)):
       
 #get an event with id  
 @event_router.get("/{event_id}", status_code= status.HTTP_200_OK)
-async def get_event_by_id(event_id: int, db: Session= Depends(get_db)):
+async def get_event_by_id(
+    event_id: Annotated[UUID, Path()],
+    db: Session= Depends(get_db)
+    ):
     try:
         event = Event_CRUD.get_event(db, event_id)
         if event:
