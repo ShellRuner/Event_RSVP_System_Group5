@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from Event_RSVP_System_Group5 import models
 from routers.events import router
 from database import engine, Base
 
@@ -16,4 +17,4 @@ def home():
 
 app.include_router(router, prefix="/events", tags=["Events"])
 
-Base.metadata.create_all(bind=engine)
+models.Base.metadata.create_all(bind=engine)
